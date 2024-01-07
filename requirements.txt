@@ -1,0 +1,4 @@
+cupy-cuda12x==12.3.0
+fastrlock==0.8.2
+numpy==1.26.3
+polars==0.20.3
