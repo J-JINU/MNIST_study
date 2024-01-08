@@ -1,4 +1,3 @@
-import time
 import polars as po
 import matplotlib.pyplot as plt
 
@@ -43,8 +42,7 @@ def OR(x1, x2):
 def XOR(x1, x2):
     s1 = NAND(x1, x2)
     s2 = OR(x1, x2)
-    y = AND(x1, x2)
-    return y
+    return AND(x1, x2)
 
 #activation function
 def step_func(x):
@@ -53,6 +51,15 @@ def step_func(x):
 def sigmoid(x):
     return 1 / (1 + np.exp(-x))
 
+#output function
+def softmax(a):
+    # 주석의 방법으로 하면 오버플로가 발생할 수 있다. exponential함수는 발산하기 때문.
+    # exp_a = np.exp(a)
+    # return (exp_a / np.sum(exp_a)) 
+    c = np.max(a)
+    exp_a = np.exp(a - c)
+    return (exp_a / np.sum(exp_a))
+
 
 class activate:
     def __init__(self) -> None:
@@ -60,6 +67,7 @@ class activate:
     
     
 if __name__ == '__main__':
+    import time
     start_time = time.time()
     
     x = np.arange(0, 10, 0.01)
