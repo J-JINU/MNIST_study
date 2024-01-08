@@ -1,5 +1,6 @@
 import time
 import polars as po
+import matplotlib.pyplot as plt
 
 cupy_enable = True
 try:
@@ -59,7 +60,6 @@ class activate:
     
     
 if __name__ == '__main__':
-    import matplotlib.pyplot as plt
     start_time = time.time()
     
     x = np.arange(0, 10, 0.01)
