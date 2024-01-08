@@ -1,11 +1,11 @@
 import time
-import numpy as np
 import polars as po
 
 cupy_enable = True
 try:
-    import cupy as cp
+    import cupy as np
 except ImportError:
+    import numpy as np
     cupy_enable = False
 
 #gate function
@@ -62,11 +62,16 @@ if __name__ == '__main__':
     import matplotlib.pyplot as plt
     start_time = time.time()
     
-    x = cp.arange(0, 10, 0.01)
-    y1 = cp.sin(x)
-    y2 = cp.cos(x)
-    plt.plot(cp.asnumpy(x), cp.asnumpy(y1), label='sin')
-    plt.plot(cp.asnumpy(x), cp.asnumpy(y2), label='cos')
+    x = np.arange(0, 10, 0.01)
+    y1 = np.sin(x)
+    y2 = np.cos(x)
+    if cupy_enable:
+        x = np.asnumpy(x)
+        y1 = np.asnumpy(y1)
+        y2 = np.asnumpy(y2)
+
+    plt.plot(x, y1, label='sin')
+    plt.plot(x, y2, label='cos')
     
     end_time = time.time()
     execution_time = end_time - start_time
