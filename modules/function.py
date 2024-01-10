@@ -1,12 +1,13 @@
 import polars as po
 import matplotlib.pyplot as plt
 
-cupy_enable = True
-try:
-    import cupy as np
-except ImportError:
-    import numpy as np
-    cupy_enable = False
+import numpy as np
+# cupy_enable = True
+# try:
+#     import cupy as np
+# except ImportError:
+#     import numpy as np
+#     cupy_enable = False
 
 #gate function
 def AND(x1, x2):
@@ -67,23 +68,25 @@ class activate:
     
     
 if __name__ == '__main__':
-    import time
-    start_time = time.time()
+    # print(sigmoid(12312))
+    # import time
+    # start_time = time.time()
     
-    x = np.arange(0, 10, 0.01)
-    y1 = np.sin(x)
-    y2 = np.cos(x)
-    if cupy_enable:
-        x = np.asnumpy(x)
-        y1 = np.asnumpy(y1)
-        y2 = np.asnumpy(y2)
+    # x = np.arange(0, 10, 0.01)
+    # y1 = np.sin(x)
+    # y2 = np.cos(x)
+    # if cupy_enable:
+    #     x = np.asnumpy(x)
+    #     y1 = np.asnumpy(y1)
+    #     y2 = np.asnumpy(y2)
 
-    plt.plot(x, y1, label='sin')
-    plt.plot(x, y2, label='cos')
+    # plt.plot(x, y1, label='sin')
+    # plt.plot(x, y2, label='cos')
     
-    end_time = time.time()
-    execution_time = end_time - start_time
-    print("프로그램 실행 시간:", execution_time, "초")
+    # end_time = time.time()
+    # execution_time = end_time - start_time
+    # print("프로그램 실행 시간:", execution_time, "초")
     
-    plt.legend()
-    plt.show()
+    # plt.legend()
+    # plt.show()
+    pass

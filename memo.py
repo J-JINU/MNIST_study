@@ -1,15 +1,17 @@
+import os
 import time
 import polars as po
 import matplotlib.pyplot as plt
 from modules import neuralnet as net
 from PIL import Image
 
-cupy_enable = True
-try:
-    import cupy as np
-except ImportError:
-    import numpy as np
-    cupy_enable = False
+import numpy as np
+# cupy_enable = True
+# try:
+#     import cupy as np
+# except ImportError:
+#     import numpy as np
+#     cupy_enable = False
 
 # def img_show(img):
 #     pil_img = Image.fromarray(np.uint8(img))
@@ -26,7 +28,6 @@ except ImportError:
 # print(img.shape)
 
 # img_show(img)
-
 x, t = net.get_data()
 network = net.init_network()
 
