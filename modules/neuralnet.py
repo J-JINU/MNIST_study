@@ -32,6 +32,7 @@ def get_data_all(normalize=True, flatten=True, one_hot_label=False):
     return x_train, t_train, x_test, t_test
 
 def init_network():
+    print('OS.path' + os.path.dirname(__file__))
     with open("sample_weight.pkl", 'rb') as f:
         network = pickle.load(f)
     return network
