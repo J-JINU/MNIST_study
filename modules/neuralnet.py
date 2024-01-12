@@ -32,8 +32,8 @@ def get_data_all(normalize=True, flatten=True, one_hot_label=False):
     return x_train, t_train, x_test, t_test
 
 def init_network():
-    print('OS.path' + os.path.dirname(__file__))
-    with open("sample_weight.pkl", 'rb') as f:
+    # need set directory(run .py's dir) in PYTHON terminal
+    with open('sample_weight.pkl', 'rb') as f:
         network = pickle.load(f)
     return network
 
@@ -49,8 +49,10 @@ def predict(network, x):
     #     b3 = np.ndarray(b3)
         
     a1 = np.dot(x, W1) + b1
-    z1 = sigmoid(a1)
+    z1 = sigmoid(a1) # pkl파일에 저장된 것 자체가 numpy array의 array인듯함 추후 cupy로 돌려 보던지 아니면 해당부분은 단지 weight라서 무시할지 생각하겠음
     a2 = np.dot(z1, W2) + b2
     z2 = sigmoid(a2)
     a3 = np.dot(z2, W3) +b3
     return softmax(a3)
+
+print(init_network())
