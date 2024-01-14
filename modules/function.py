@@ -61,6 +61,13 @@ def softmax(a):
     exp_a = np.exp(a - c)
     return (exp_a / np.sum(exp_a))
 
+def sum_squares_error(y, t):
+    return 0.5 * np.sum((y - t) ** 2)
+
+def cross_entropy_error(y, t):
+    delta = 1e-7
+    return -np.sum(t * np.log(y + delta))
+
 
 class activate:
     def __init__(self) -> None:
