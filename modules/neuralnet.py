@@ -54,5 +54,3 @@ def predict(network, x):
     z2 = sigmoid(a2)
     a3 = np.dot(z2, W3) +b3
     return softmax(a3)
-
-print(init_network())
