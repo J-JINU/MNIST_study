@@ -3,6 +3,7 @@ import time
 import polars as po
 import matplotlib.pyplot as plt
 from modules import neuralnet as net
+from modules import function as func
 from PIL import Image
 
 import numpy as np
@@ -63,13 +64,17 @@ import numpy as np
 # print("Accuracy : " + str(float(accuracy_cnt) / len(x)))
 # print(f"time elapsed : {int(round((end_time - start_time) * 1000))}ms")
 
-x_train, t_train, x_test, t_test = net.get_data_all()
+# x_train, t_train, x_test, t_test = net.get_data_all()
 
-train_size = x_train.shape[0]
-batch_size = 10
-batch_mask = np.random.choice(train_size,batch_size)
-print(f"batch_mask : {batch_mask}")
-x_batch = x_train[batch_mask]
-t_batch = t_train[batch_mask]
-print(f"x_batch : {x_batch}")
-print(f"t_batch : {t_batch}")
+# y = np.array([[0.1, 0.05, 0.1, 0.0, 0.05, 0.1, 0.0, 0.6, 0.0, 0.0], [0.1, 0.05, 0.6, 0.0, 0.05, 0.1, 0.0, 0.1, 0.0, 0.0]])
+# t = np.array([[0, 0, 1, 0, 0, 0, 0, 0, 0, 0], [0, 0, 1, 0, 0, 0, 0, 0, 0, 0]])
+# y = np.array([[0.1, 0.05, 0.6, 0.0, 0.05, 0.1, 0.0, 0.1, 0.0, 0.0]])
+# t = np.array([[0, 0, 1, 0, 0, 0, 0, 0, 0, 0]])
+# y = np.array([[0.1, 0.05, 0.1, 0.0, 0.05, 0.1, 0.0, 0.6, 0.0, 0.0]])
+# t = np.array([[0, 0, 1, 0, 0, 0, 0, 0, 0, 0]])
+# print(func.cross_entropy_error(y, t))
+
+y = np.array([[0.1, 0.05, 0.6, 0.0, 0.05]])
+print(y)
+t = np.array([[2, 3, 0, 1, 4]])
+print(y[np.arange(y.shape[0]), t])
