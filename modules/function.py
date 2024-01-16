@@ -80,6 +80,9 @@ def cross_entropy_error(y, t):
     #     return -np.sum(np.log(y[np.arange(batch_size), t] + 1e-7)) / batch_size
     return -np.sum(t * np.log(y + 1e-7)) / batch_size
 
+def numerical_diff(f, x):
+    h = 1e-10
+    return (f(x + h) - f(x - h)) / (2 * h)
 
 class activate:
     def __init__(self) -> None:
