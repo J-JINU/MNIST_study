@@ -20,7 +20,7 @@ sys.path.append(os.path.dirname(os.path.dirname(__file__)))
 sys.path.append(os.path.dirname(__file__))
 
 from deep_study.dataset.mnist import load_mnist
-from function import sigmoid, softmax
+from function import sigmoid, softmax, cross_entropy_error
 
 
 def get_data():
@@ -54,3 +54,17 @@ def predict(network, x):
     z2 = sigmoid(a2)
     a3 = np.dot(z2, W3) +b3
     return softmax(a3)
+
+class simpleNet:
+    def __init__(self) -> None:
+        self.W = np.random.randn(2, 3)
+        
+    def predict(self, x):
+        return np.dot(x, self.W)
+    
+    def loss(self, x, t):
+        z = self.predict(x)
+        y = softmax(z)
+        loss = cross_entropy_error(y, t)
+        
+        return loss
