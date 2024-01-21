@@ -79,24 +79,24 @@ import numpy as np
 # t = np.array([[2, 3, 0, 1, 4]])
 # print(y[np.arange(y.shape[0]), t])
 
-class simpleNet:
-    def __init__(self):
-        self.W = np.random.randn(2,3) # 정규분포로 초기화
+# class simpleNet:
+#     def __init__(self):
+#         self.W = np.random.randn(2,3) # 정규분포로 초기화
 
-    def predict(self, x):
-        return np.dot(x, self.W)
+#     def predict(self, x):
+#         return np.dot(x, self.W)
 
-    def loss(self, x, t):
-        z = self.predict(x)
-        y = func.softmax(z)
-        loss = func.cross_entropy_error(y, t)
+#     def loss(self, x, t):
+#         z = self.predict(x)
+#         y = func.softmax(z)
+#         loss = func.cross_entropy_error(y, t)
 
-        return loss
+#         return loss
 
-x = np.array([0.6, 0.9])
+x = np.array([0.6, 0.9,])
 t = np.array([0, 0, 1])
 
-net = simpleNet()
+net = nnet.simpleNet()
 
 f = lambda w: net.loss(x, t)
 dW = func.numerical_gradient(f, net.W)

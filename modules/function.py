@@ -84,8 +84,8 @@ def numerical_diff(f, x):
     h = 1e-10
     return (f(x + h) - f(x - h)) / (2 * h)
 
-def numerical_gradient(f, x):
-    h = 1e-4
+def numerical_gradient_1d(f, x): #just 1 dim
+    h = 1e-10
     grad = np.zeros_like(x)
     for idx in range(x.size):
         tmp_val = x[idx]
@@ -99,6 +99,15 @@ def numerical_gradient(f, x):
         
     return grad
 
+def numerical_gradient(f, x):
+    if x.ndim == 1:
+        return numerical_gradient_1d(f, x)
+    else:
+        grad = np.zeros_like(x)
+        for idx, X in enumerate(x):
+            grad[idx] = numerical_gradient_1d(f, X)
+    
+    return grad
 
 class activate:
     def __init__(self) -> None:
