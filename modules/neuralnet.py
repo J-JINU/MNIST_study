@@ -68,3 +68,8 @@ class simpleNet:
         loss = cross_entropy_error(y, t)
         
         return loss
+    
+class TwoLayerNet:
+    def __init__(self, input_size, hidden_size, output_size, weight_init_std=0.01):
+        self.params = {}
+        
