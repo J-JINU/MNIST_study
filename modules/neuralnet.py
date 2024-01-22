@@ -2,12 +2,12 @@ import sys, os
 import pickle
 
 import numpy as np
-# cupy_enable = True
-# try:
-#     import cupy as np
-# except ImportError:
-#     import numpy as np
-#     cupy_enable = False
+cupy_enable = True
+try:
+    import cupy as np
+except ImportError:
+    import numpy as np
+    cupy_enable = False
 
 
 # print('__file__ ::', __file__)
@@ -89,7 +89,7 @@ class TwoLayerNet:
     def loss(self, x, t):
         y = self.predict(x)
         
-        return cross_entropy_error(x)
+        return cross_entropy_error(y, t)
     
     def accuracy(self, x, t):
         y = self.predict(x)

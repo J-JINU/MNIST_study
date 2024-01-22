@@ -6,7 +6,7 @@ from modules import neuralnet as nnet
 from modules import function as func
 from PIL import Image
 
-import numpy as np
+import cupy as np
 # cupy_enable = True
 # try:
 #     import cupy as np
@@ -14,112 +14,48 @@ import numpy as np
 #     import numpy as np
 #     cupy_enable = False
 
-# def img_show(img):
-#     pil_img = Image.fromarray(np.uint8(img))
-#     pil_img.show()
+from deep_study.dataset.mnist import load_mnist
 
-# x_train, t_train, x_test, t_test = nnet.get_data_all(normalize=False)
+(x_train, t_train), (x_test, t_test) = load_mnist(normalize=True, one_hot_label=True)
+x_train = np.asarray(x_train)
+t_train = np.asarray(t_train)
+x_test = np.asarray(x_test)
+t_test = np.asarray(t_test)
 
-# img = x_train[7]
-# label = t_train[7]
-# print(label)
+train_loss_list = []
 
-# print(img.shape)
-# img = img.reshape(28, 28)
-# print(img.shape)
+iters_num = 10000
+train_size = x_train.shape[0]
+batch_size = 100
+learning_rate = 0.1
+network = nnet.TwoLayerNet(input_size=784, hidden_size=50, output_size=10)
 
-# img_show(img)
-
-# x, t = nnet.get_data()
-# network = nnet.init_network()
-
-# W1, W2, W3 = network['W1'], network['W2'], network['W3']
-# print(x.shape)
-# print(W1.shape)
-# print(W2.shape)
-# print(W3.shape)
-
-# accuracy_cnt = 0
-# start_time = time.perf_counter()
-# for i in range(len(x)):
-#     y = nnet.predict(network, x[i])
-#     p = np.argmax(y)
-#     if p == t[i]:
-#         accuracy_cnt += 1
-# end_time = time.perf_counter()        
-# print("Accuracy : " + str(float(accuracy_cnt) / len(x)))
-# print(f"time elapsed : {int(round((end_time - start_time) * 1000))}ms")
-
-
-# batch_size = 100
-# accuracy_cnt = 0
-# start_time = time.perf_counter()
-# for i in range(0, len(x), batch_size):
-#     x_batch = x[i:i+batch_size]
-#     y_batch = nnet.predict(network, x_batch)
-#     p = np.argmax(y_batch, axis=1) # predict result
-#     accuracy_cnt += np.sum(p == t[i:i+batch_size]) #compare predict result to label
-# end_time = time.perf_counter()   
-
-# print("Accuracy : " + str(float(accuracy_cnt) / len(x)))
-# print(f"time elapsed : {int(round((end_time - start_time) * 1000))}ms")
-
-# x_train, t_train, x_test, t_test = nnet.get_data_all()
-
-# y = np.array([[0.1, 0.05, 0.1, 0.0, 0.05, 0.1, 0.0, 0.6, 0.0, 0.0], [0.1, 0.05, 0.6, 0.0, 0.05, 0.1, 0.0, 0.1, 0.0, 0.0]])
-# t = np.array([[0, 0, 1, 0, 0, 0, 0, 0, 0, 0], [0, 0, 1, 0, 0, 0, 0, 0, 0, 0]])
-# y = np.array([[0.1, 0.05, 0.6, 0.0, 0.05, 0.1, 0.0, 0.1, 0.0, 0.0]])
-# t = np.array([[0, 0, 1, 0, 0, 0, 0, 0, 0, 0]])
-# y = np.array([[0.1, 0.05, 0.1, 0.0, 0.05, 0.1, 0.0, 0.6, 0.0, 0.0]])
-# t = np.array([[0, 0, 1, 0, 0, 0, 0, 0, 0, 0]])
-# print(func.cross_entropy_error(y, t))
-
-# y = np.array([[0.1, 0.05, 0.6, 0.0, 0.05]])
-# print(y)
-# t = np.array([[2, 3, 0, 1, 4]])
-# print(y[np.arange(y.shape[0]), t])
-
-# class simpleNet:
-#     def __init__(self):
-#         self.W = np.random.randn(2,3) # 정규분포로 초기화
-
-#     def predict(self, x):
-#         return np.dot(x, self.W)
-
-#     def loss(self, x, t):
-#         z = self.predict(x)
-#         y = func.softmax(z)
-#         loss = func.cross_entropy_error(y, t)
-
-#         return loss
-
-# x = np.array([0.6, 0.9,])
-# t = np.array([0, 0, 1])
-
-# net = nnet.simpleNet()
-
-# f = lambda w: net.loss(x, t)
-# dW = func.numerical_gradient(f, net.W)
-
-# print(dW)
-
-# net = nnet.simpleNet()
-# print(net.W)
-
-# x = np.array([0.6, 0.9])
-# p = net.predict(x)
-# print(p)
-# np.argmax(p)
-# t = np.array([0, 0, 1])
-# print(net.loss(x, t))
-# f = lambda w: net.loss(x, t)
-# dW = func.numerical_gradient(f, net.W)
-
-net = nnet.TwoLayerNet(input_size=784, hidden_size=100, output_size=10)
-print(net.params['W1'].shape)
-print(net.params['b1'].shape)
-print(net.params['W2'].shape)
-print(net.params['b2'].shape)
-x = np.random.rand(100, 784)
-y = net.predict(x)
-print(y.shape)
+pred_start = time.perf_counter()
+for i in range(iters_num):
+    print(f'start {i} iter')
+    start_time = time.perf_counter()
+    batch_mask = np.random.choice(train_size, batch_size)
+    x_batch = x_train[batch_mask]
+    t_batch = t_train[batch_mask]
+    
+    grad = network.numerical_gradient(x_batch, t_batch)
+    
+    for key in ('W1', 'b1', 'W2', 'b2'):
+        network.params[key] -= learning_rate * grad[key]
+        
+    loss = network.loss(x_batch, t_batch)
+    train_loss_list.append(loss)
+    end_time = time.perf_counter()
+    print(f'end {i} iter, run time : {end_time - start_time}')
+    
+pred_end = time.perf_counter()
+print(f'end pred, total time : {pred_end - pred_start}')
+# 그래프 그리기
+markers = {'train': 'o', 'test': 's'}
+x = np.arange(len(train_loss_list))
+plt.plot(x, train_loss_list, label='train loss')
+plt.xlabel("epochs")
+plt.ylabel("accuracy")
+plt.ylim(0, 1.0)
+plt.legend(loc='lower right')
+plt.show()

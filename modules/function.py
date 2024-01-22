@@ -2,12 +2,12 @@ import polars as po
 import matplotlib.pyplot as plt
 
 import numpy as np
-# cupy_enable = True
-# try:
-#     import cupy as np
-# except ImportError:
-#     import numpy as np
-#     cupy_enable = False
+cupy_enable = True
+try:
+    import cupy as np
+except ImportError:
+    import numpy as np
+    cupy_enable = False
 
 #gate function
 def AND(x1, x2):
