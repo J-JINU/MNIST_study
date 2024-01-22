@@ -93,15 +93,15 @@ import numpy as np
 
 #         return loss
 
-x = np.array([0.6, 0.9,])
-t = np.array([0, 0, 1])
+# x = np.array([0.6, 0.9,])
+# t = np.array([0, 0, 1])
 
-net = nnet.simpleNet()
+# net = nnet.simpleNet()
 
-f = lambda w: net.loss(x, t)
-dW = func.numerical_gradient(f, net.W)
+# f = lambda w: net.loss(x, t)
+# dW = func.numerical_gradient(f, net.W)
 
-print(dW)
+# print(dW)
 
 # net = nnet.simpleNet()
 # print(net.W)
@@ -114,3 +114,12 @@ print(dW)
 # print(net.loss(x, t))
 # f = lambda w: net.loss(x, t)
 # dW = func.numerical_gradient(f, net.W)
+
+net = nnet.TwoLayerNet(input_size=784, hidden_size=100, output_size=10)
+print(net.params['W1'].shape)
+print(net.params['b1'].shape)
+print(net.params['W2'].shape)
+print(net.params['b2'].shape)
+x = np.random.rand(100, 784)
+y = net.predict(x)
+print(y.shape)
